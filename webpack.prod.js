@@ -5,6 +5,10 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+const extractLess = new ExtractTextPlugin({
+    filename: utils.assetsPath('css/[name].[hash:10].css')
+});
+
 module.exports = {
     devtool: 'cheap-module-source-map',
     entry: {
@@ -25,12 +29,17 @@ module.exports = {
             use: ['babel-loader'],
             include: path.join(__dirname, 'src')
         }, {
-            test: /\.css$/,
-            use: ExtractTextPlugin.extract({
-              fallback: "style-loader",
-              use: "css-loader"
+            test: /\.less$/,
+            use: extractLess.extract({
+                use: [{
+                    loader: "css-loader"
+                }, {
+                    loader: "less-loader"
+                }],
+                // use style-loader in development
+                fallback: "style-loader"
             })
-        }, {
+        },  {
             test: /\.(png|jpg|gif)$/,
             use: [{
                 loader: 'url-loader',
@@ -59,16 +68,13 @@ module.exports = {
         }),
         new webpack.HashedModuleIdsPlugin(),
         new CleanWebpackPlugin(['dist']),
-        new ExtractTextPlugin({
-            filename: '[name].[contenthash:5].css',
-            allChunks: true
-        })
+        extractLess
     ],
 
     resolve: {
         alias: {
             pages: path.join(__dirname, 'src/pages'),
-            component: path.join(__dirname, 'src/component'),
+            components: path.join(__dirname, 'src/components'),
             router: path.join(__dirname, 'src/router'),
             actions: path.join(__dirname, 'src/redux/actions'),
             reducers: path.join(__dirname, 'src/redux/reducers')

@@ -28,7 +28,7 @@ export default function reducer(state = initState, action) {
                 ...state,
                 isLoading: false,
                 userInfo: {},
-                errorMsg: '请求错误'
+                errorMsg: error
             };
         default:
             return state;

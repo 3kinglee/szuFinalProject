@@ -27,15 +27,15 @@ module.exports = {
 			use: ['babel-loader?cacheDirectory=true'],
 			include: path.join(__dirname, 'src')
 		},{
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader']
+			test: /\.less$/,
+			use: ['style-loader', 'css-loader', 'less-loader']
 	 	},{
 			test: /\.(png|jpg|gif|svg)$/,
-    	use: [{
-        loader: 'url-loader',
-        options: {
-          limit: 8192
-        }
+			use: [{
+			loader: 'url-loader',
+			options: {
+			limit: 8192
+			}
     }]
 		}
 		]
@@ -43,7 +43,7 @@ module.exports = {
 
 	devServer: {
 		port: 8080,
-		contentBase: path.join(__dirname, './dist'),
+		contentBase: path.join(__dirname, '/'),
 		historyApiFallback: true,
 		host: '0.0.0.0'
 	},
@@ -51,7 +51,7 @@ module.exports = {
 	resolve: {
 		alias: {
 			pages: path.join(__dirname, 'src/pages'),
-			component: path.join(__dirname, 'src/component'),
+			components: path.join(__dirname, 'src/components'),
 			router: path.join(__dirname, 'src/router'),
 			actions: path.join(__dirname, 'src/redux/actions'),
 			reducers: path.join(__dirname, 'src/redux/reducers')
